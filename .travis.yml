@@ -1,9 +1,14 @@
+os: linux
+dist: focal
 language: node_js
-node_js:
-  - "14"
+node_js: 20
+install: skip
+script: sleep 1
 
-script:
-  - npm install -g yarn
-  - yarn set version latest
-  - yarn install
-  - yarn tsc -b
+deploy:
+- provider: npm
+  email: "${NPMJS_EMAIL}"
+  api_key: "${NPMJS_API_KEY}"
+  skip_cleanup: true
+  on:
+    tags: true
