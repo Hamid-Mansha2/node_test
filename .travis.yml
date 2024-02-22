@@ -3,6 +3,9 @@ dist: jammy
 language: node_js
 node_js: "20"
 
+before_deploy:
+  - npm install -g npm@9
+
 install: skip
 script: sleep 1
 
