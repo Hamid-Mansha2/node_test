@@ -1,14 +1,25 @@
 os: linux
-dist: focal
+dist: jammy
 language: node_js
-node_js: 20
-install: skip
-script: sleep 1
+node_js: "20"
 
-deploy:
-- provider: npm
-  email: "${NPMJS_EMAIL}"
-  api_key: "${NPMJS_API_KEY}"
-  skip_cleanup: true
-  on:
-    tags: true
+jobs:
+  include:
+    - stage: install-build
+      name: Install And Build
+      script:
+        - npm install -g yarn
+        - yarn set version latest
+        - yarn install
+        - yarn tsc -b
+
+    - stage: deploy
+      name: Publish to npmjs.com
+      script: skip
+      deploy:
+        provider: npm
+        email: "xxxxx@xxxxx.com"
+        api_token: $npmToken
+        cleanup: false
+        on:
+          tags: true
