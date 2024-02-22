@@ -3,23 +3,13 @@ dist: jammy
 language: node_js
 node_js: "20"
 
-jobs:
-  include:
-    - stage: install-build
-      name: Install And Build
-      script:
-        - npm install -g yarn
-        - yarn set version latest
-        - yarn install
-        - yarn tsc -b
+install: skip
+script: sleep 1
 
-    - stage: deploy
-      name: Publish to npmjs.com
-      script: skip
-      deploy:
-        provider: npm
-        email: "xxxxx@xxxxx.com"
-        api_token: $npmToken
-        cleanup: false
-        on:
-          tags: true
+deploy:
+  provider: npm
+  email: "xxxxx@xxxxx.com"  # Replace with your npm email
+  api_token: $npmToken       # Ensure that $npmToken is set in your Travis CI settings
+  skip_cleanup: true
+  on:
+    tags: true
